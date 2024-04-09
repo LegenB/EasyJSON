@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useForm } from "../hooks/useForm";
+import papelera from "../images/papelera.png"
+import clean from "../images/clean.png"
 
 export const Home = () => {
 
@@ -85,30 +87,51 @@ export const Home = () => {
 
    
     return (
-        <>
-            <h1>Home</h1>
+        <div className='flex justify-center mt-9'>
+            <div className=' grid grid-cols-2 gap-5'>
+                <div className='w-[525px]'> 
+                    <h1 className='mb-1 text-2xl'>Crea tu JSON</h1>
+                    <hr  className='border-violet-600'/>
+                    <form className='mt-3 max-h-[500px]  overflow-y-auto'>
+                        {Jarray.map((obj, index)=> (
+                            <ul key={index} className='flex items-center'>
+                                
+                                <span className='text-2xl text-violet-300 mr-1'>{"{"}</span>
+                                <input type="text" placeholder='Nombre ' name={`title.${index}`} value={formState[`title.${index}`] || ''} onChange={onInputChange}  className='text-zinc-50 bg-slate-600 m-1 p-1 rounded-md  border-2 border-sky-500/95' />
+                                <span className='text-2xl text-violet-300 mx-1'>:</span>
+                                <input type="text" placeholder='Valor' name={`desc.${index}`} value={formState[`desc.${index}`] || ''} onChange={onInputChange}  className='text-zinc-50 bg-slate-600 m-1 p-1 rounded-md  border-2 border-sky-500/95'/>
+                                <span className='text-2xl text-violet-300  ml-1'>{"}"}</span>
+                                <button type="button" onClick={ () => onResetForm( index )} className='bg-red-200 rounded-full p-1 border border-red-300 hover:bg-red-400 transition group m-1 flex justify-center items-center'>
+                                    <img src={clean} alt="Limpiar"  className='size-6 group-hover:scale-105'/>
+                                </button>
+                                <button type="button" onClick={ () => onDeleteIndex( index )} className='bg-red-400 rounded-full p-1 border border-red-500 hover:bg-red-600 transition group flex justify-center items-center'>
+                                    <img src={papelera} alt="Limpiar"  className='size-6 group-hover:scale-105'/>
+                                </button>
+                            </ul>
+                        ))}
+                    </form>
+          
+                    <button className='bg-violet-600 p-2 m-1 border border-purple-800 rounded-lg hover:scale-105 transition hover:bg-violet-700 w-full' onClick={onAddObject}>Agregar Objeto</button>
+                    
+                    
 
+                </div>
+                
 
-            <h2>Code:</h2>
-            <pre><code>{JSON.stringify(Jcontent)}</code></pre>
-            {copySuccess && <div>Copiado al portapapeles</div>}
-    
-            <form>
-                {Jarray.map((obj, index)=> (
-                    <ul key={index}>
-                        
-                        <input type="text" placeholder='PrimerValor' name={`title.${index}`} value={formState[`title.${index}`] || ''} onChange={onInputChange} />
-                        <input type="text" placeholder='SegundoValor' name={`desc.${index}`} value={formState[`desc.${index}`] || ''} onChange={onInputChange} />
+                <div className='w-[525px]'>
+                    <h1 className='mb-1 text-2xl'>Code:</h1>
+                    <hr  className='border-violet-600'/>
+                    
+                    <div className='bg-slate-800 rounded-md h-[500px] border-2 border-slate-950 p-2 mt-3 overflow-y-auto'>
+                    
+                        <pre className='' style={{ whiteSpace: 'pre-wrap' }}><code>{JSON.stringify(Jcontent, null, 2)}</code></pre>
 
-                        <button type="button" onClick={ () => onResetForm( index )}>Clean</button>
-                        <button type="button" onClick={ () => onDeleteIndex( index )}>Delete</button>
-                    </ul>
-                ))}
-            </form>
-            <br />
-            <button onClick={onAddObject}>Agregar Objeto</button>
-            <button onClick={onCreateJSON}>Crear JSON</button>
-            <button onClick={copyToClipboard}>Copiar al portapapeles</button>
-        </>
+                    </div>
+                    <button className='bg-violet-600 p-2 m-1 border border-purple-800 rounded-lg hover:scale-105 transition hover:bg-violet-700' onClick={onCreateJSON}>Crear JSON</button>
+                    <button className='bg-violet-600 p-2 m-1 border border-purple-800 rounded-lg hover:scale-105 transition hover:bg-violet-700' onClick={copyToClipboard}>Copiar al portapapeles</button>
+                    {copySuccess && <div className='text-sky-400 ml-2'>Copiado al portapapeles !!!</div>}
+                </div>
+            </div>
+        </div>    
     );
 };
