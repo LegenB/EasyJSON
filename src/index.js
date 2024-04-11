@@ -10,6 +10,7 @@ import { Ejemplo } from "./components/ejemplo";
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
+    <div class="absolute top-0 z-[-2] h-screen w-screen bg-neutral-950 bg-[radial-gradient(ellipse_80%_90%_at_50%_-20%,rgba(120,119,198,0.25),rgba(255,255,255,0))]"></div>
     <Home/>
 
   </React.StrictMode>

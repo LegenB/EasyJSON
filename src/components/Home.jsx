@@ -2,7 +2,9 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useForm } from "../hooks/useForm";
 import papelera from "../images/papelera.png"
 import clean from "../images/clean.png"
+import add from "../images/add_w.png"
 import { Info } from "./Info";
+
 
 export const Home = () => {
 
@@ -29,7 +31,11 @@ export const Home = () => {
                     if (document.activeElement.tagName.toLowerCase() !== 'input') {
                         onAddObject();
                     }
-                    break; 
+                    break;
+                case 'Delete': // Borrar con la tecla suprimir                
+                    onDeleteLastObject();                                  
+                    break;
+
                 case 'Enter':
                     if (document.activeElement.tagName.toLowerCase() === 'input') {
                         onAddObject();
@@ -66,6 +72,14 @@ export const Home = () => {
             }
         });   
         setJcontent(newContent);
+    };
+    // Borra el ultimo objeto del arreglo
+    const onDeleteLastObject = () => {
+        if (JarrayRef.current.length > 0) {
+            const newArray = [...JarrayRef.current];
+            newArray.pop();
+            setJarray(newArray);
+        }
     };
 
     // Borrar una fila del arreglo
@@ -128,37 +142,43 @@ export const Home = () => {
 
    
     return (
+        
         <div>
             <Info/>
-             <div className='flex justify-center mx-9'>
+             <div className='mx-9'>
                 <div className=' grid grid-cols-2 gap-5'>
-                    <div className='w-[525px]'> 
+                    <div className='w-full'> 
                         <h1 className='mb-1 text-2xl'>Crea tu JSON</h1>
                         <hr  className='border-violet-600'/>
-                        <form className='mt-3 max-h-[500px]  overflow-y-auto'>
+                        <form className='mt-3 max-h-[500px]  overflow-y-auto '>
                             {Jarray.map((obj, index)=> (
-                                <ul key={index} className='flex items-center'>
+                                <ul key={index} className='flex items-center '>
                                     
                                     <span className='text-2xl text-violet-300 mr-1'>{"{"}</span>
-                                    <input type="text" placeholder='Clave ' name={`title.${index}`} value={formState[`title.${index}`] || ''} onChange={onInputChange}  className='text-zinc-50 bg-slate-600 m-1 p-1 rounded-md  border-2 border-sky-500/95' />
+                                    <input type="text" placeholder='Clave ' name={`title.${index}`} value={formState[`title.${index}`] || ''} onChange={onInputChange}  className='text-zinc-50 bg-slate-600 m-1 p-1 rounded-md  border-2 border-sky-500/95 w-2/5' />
                                     <span className='text-2xl text-violet-300 mx-1'>:</span>
-                                    <input type="text" placeholder='Valor' name={`desc.${index}`} value={formState[`desc.${index}`] || ''} onChange={onInputChange}  className='text-zinc-50 bg-slate-600 m-1 p-1 rounded-md  border-2 border-sky-500/95'/>
+                                    <input type="text" placeholder='Valor' name={`desc.${index}`} value={formState[`desc.${index}`] || ''} onChange={onInputChange}  className='text-zinc-50 bg-slate-600 m-1 p-1 rounded-md  border-2 border-sky-500/95 w-2/5'/>
                                     <span className='text-2xl text-violet-300  ml-1'>{"}"}</span>
-                                    <button type="button" onClick={ () => onResetForm( index )} className='bg-red-200 rounded-full p-1 border border-red-300 hover:bg-red-400 transition group m-1 flex justify-center items-center'>
-                                        <img src={clean} alt="Limpiar"  className='size-6 group-hover:scale-105'/>
-                                    </button>
-                                    <button type="button" onClick={ () => onDeleteIndex( index )} className='bg-red-400 rounded-full p-1 border border-red-500 hover:bg-red-600 transition group flex justify-center items-center'>
-                                        <img src={papelera} alt="Limpiar"  className='size-6 group-hover:scale-105'/>
-                                    </button>
+                                    <div className='flex justify-around items-center w-1/5'>
+                                        <button type="button" onClick={ () => onResetForm( index )} className='bg-red-200 rounded-full p-1 border border-red-300 hover:bg-red-400 transition group m-1 flex justify-center items-center'>
+                                            <img src={clean} alt="Limpiar"  className='size-6 group-hover:scale-105'/>
+                                        </button>
+                                        <button type="button" onClick={ () => onDeleteIndex( index )} className='bg-red-400 rounded-full p-1 border border-red-500 hover:bg-red-600 transition group flex justify-center items-center '>
+                                            <img src={papelera} alt="Limpiar"  className='size-6 group-hover:scale-105'/>
+                                        </button>
+                                    </div>
+                                    
                                 </ul>
                             ))}
                         </form>
             
-                        <button className='bg-violet-600 p-2 m-1 border border-purple-800 rounded-lg hover:scale-105 transition hover:bg-violet-700 w-full' onClick={onAddObject}>Agregar Objeto</button>
+                        <button className='bg-violet-600 p-1 m-1 border border-purple-800 rounded-lg transition hover:bg-violet-700 w-full flex items-center justify-center h-11' onClick={onAddObject}>
+                            <img src={add} alt="add" className='size-10 mr-3' /> Agregar Objeto
+                        </button>
                         
                     </div>
                     
-                    <div className='w-[525px]'>
+                    <div className='w-full'>
                         <h1 className='mb-1 text-2xl'>Code:</h1>
                         <hr  className='border-violet-600'/>
                         
@@ -167,8 +187,11 @@ export const Home = () => {
                             <pre className='' style={{ whiteSpace: 'pre-wrap' }}><code>{JSON.stringify(Jcontent, null, 2)}</code></pre>
 
                         </div>
-                        <button className='bg-violet-600 p-2 m-1 border border-purple-800 rounded-lg hover:scale-105 transition hover:bg-violet-700' onClick={onCreateJSON}>Crear JSON</button>
-                        <button className='bg-violet-600 p-2 m-1 border border-purple-800 rounded-lg hover:scale-105 transition hover:bg-violet-700' onClick={copyToClipboard}>Copiar al portapapeles</button>
+                        <div className='flex justify-around'>
+                            <button className='bg-indigo-600 p-2 m-1 border border-indigo-800 rounded-lg hover:scale-105 transition hover:bg-indigo-700 w-[200px] h-11' onClick={onCreateJSON}>Crear JSON</button>
+                            <button className='bg-violet-600 p-2 m-1 border border-purple-800 rounded-lg hover:scale-105 transition hover:bg-violet-700 w-[200px] h-11' onClick={copyToClipboard}>Copiar al portapapeles</button>
+                        </div>
+                        
                         {copySuccess && <div className='text-sky-400 ml-2'>Copiado al portapapeles !!!</div>}
                     </div>
                 </div>
