@@ -6,7 +6,7 @@ import rayo from "../images/rayo.png"
 
 export const Info = () => {
   return (
-    <div className='mx-9 my-5 bg-slate-800 p-4 rounded-md'>
+    <div className='sm:mx-2 md:mx-9 my-5 bg-slate-800 p-4 rounded-md'>
         <div className='flex items-center mb-1'>
             <img src={rayo} alt="" className='size-7 mr-1' />
             <h2 className='text-xl'> Teclas Rapidas</h2>

@@ -145,6 +145,7 @@ export const Home = () => {
         });
     };
 
+    // Cambiar el Tipo de el input valor
     const onTypeChange = (e, index) => {
         const { value } = e.target;
         onResetDesc(index); //Limpiar valor al momento de cambiar el tipo de dato
@@ -192,19 +193,19 @@ export const Home = () => {
         
         <div>     
             <Info/>
-             <div className='mx-9'>
-                <div className=' grid grid-cols-2 gap-5'>
+             <div className='sm:mx-2 md:mx-9'>
+                <div className=' grid xl:grid-cols-2 gap-y-8 xl:gap-5 xl:gap-y-0'>
                     <div className='w-full'> 
                         <div className='flex items-center'>
                             <img src={Edit} alt=""  className='size-10 mr-2'/>
                             <h1 className='mb-1 text-2xl'>Crea tu JSON</h1>
                         </div>
-                        
+
                         <hr  className='border-violet-600'/>
                         <form className='mt-3 max-h-[500px]  overflow-y-auto '>
                             {Jarray.map((obj, index)=> (
                                 <ul key={index} className='flex items-center justify-center '>
-                                               
+                                    
                                     <span className='text-2xl text-violet-300 mr-1'>{"{"}</span>
                                     
                                     <input type="text" placeholder='Clave ' name={`title.${index}`} value={formState[`title.${index}`] || ''} onChange={onInputChange} autocomplete="off"  className='text-zinc-50 bg-slate-600 m-1 p-1 rounded-md  border-2 border-sky-500/95 w-2/5' />
@@ -218,15 +219,22 @@ export const Home = () => {
                                         <option value="bool">Bool</option>
                                     </select>
                                     <span className='text-2xl text-violet-300 mx-1'>:</span>
-                                                                        
+
                                     {formState[`type.${index}`] === 'bool' ? (
-                                        <input
+                                        <div className='flex items-center w-2/5'>
+                                           <input
                                             type="checkbox"
                                             name={`desc.${index}`}
                                             checked={formState[`desc.${index}`] || false}
                                             onChange={onInputChange}
-                                            className='m-1 size-5'
-                                        />
+                                            className='m-1 p-1 size-5 '
+                                        /> 
+                                            <span className={formState[`desc.${index}`] ? 'pl-2 text-blue-300' : 'pl-2 text-red-300'}>
+                                                {formState[`desc.${index}`] ? 'True' : 'False'}
+                                            </span>
+                                        </div>
+
+                                        
                                         ) : (
                                         <input
                                             type="text"
@@ -254,7 +262,7 @@ export const Home = () => {
                         </form>
             
                         <button className='bg-violet-600 p-1 m-1 border border-purple-800 rounded-lg transition hover:bg-violet-700 w-full flex items-center justify-center h-11' onClick={onAddObject}>
-                            <img src={add} alt="add" className='size-10 mr-3' /> Agregar Objeto
+                            <img src={add} alt="add" className='size-10 mr-3' /> Agregar
                         </button>
 
                         
@@ -266,25 +274,44 @@ export const Home = () => {
                             <h1 className='mb-1 text-2xl'>Code:</h1>
                         </div>                      
                         <hr  className='border-violet-600'/>
-                        
-                        <div className='bg-slate-800 rounded-md h-[500px] border-2 border-slate-950 p-2 mt-3 overflow-y-auto'>
+                        {/* Aqui botones cuando es MENOR a xl*/}
+                        <div className="block xl:hidden">
+                            <div className='flex justify-around mt-3'>
+                                <button className='bg-green-600 p-2 m-1 border  border-green-800 rounded-lg hover:scale-105 transition  hover:bg-green-700 w-[200px] flex items-center justify-center h-11' onClick={onCreateJSON}>
+                                    <img src={Martillo} alt="" className='size-9 mr-1'/> Crear JSON
+                                </button>
+                                <button className='bg-violet-600 p-2 m-1 border border-purple-800 rounded-lg hover:scale-105 transition hover:bg-violet-700 w-[200px] flex items-center justify-center h-11' onClick={copyToClipboard}>
+                                    <img src={Clip} alt="" className='size-9 mr-1'/>Copiar 
+                                </button>
+                                <button className='bg-indigo-600 p-2 m-1 border border-indigo-800 rounded-lg hover:scale-105 transition hover:bg-indigo-700 w-[200px] flex items-center justify-center h-11' onClick={downloadTxtFile}>
+                                    <img src={Descarga} alt="" className='size-8 mr-1'/>
+                                    Descargar JSON 
+                                </button>
+                            </div>
+                        </div>
+                        {/* Panel del Resultado del Codigo */}
+                        <div className='mb-14 xl:mb-0 bg-slate-800 rounded-md h-[500px] border-2 border-slate-950 p-2 mt-3 overflow-y-auto'>
                         
                             <pre className='' style={{ whiteSpace: 'pre-wrap' }}><code>{JSON.stringify(Jcontent, null, 2)}</code></pre>
 
                         </div>
-                        <div className='flex justify-around'>
-                            <button className='bg-green-600 p-2 m-1 border  border-green-800 rounded-lg hover:scale-105 transition  hover:bg-green-700 w-[200px] flex items-center justify-center h-11' onClick={onCreateJSON}>
-                                <img src={Martillo} alt="" className='size-9 mr-1'/> Crear JSON
-                            </button>
-                            <button className='bg-violet-600 p-2 m-1 border border-purple-800 rounded-lg hover:scale-105 transition hover:bg-violet-700 w-[200px] flex items-center justify-center h-11' onClick={copyToClipboard}>
-                                <img src={Clip} alt="" className='size-9 mr-1'/>Copiar 
-                            </button>
-                            <button className='bg-indigo-600 p-2 m-1 border border-indigo-800 rounded-lg hover:scale-105 transition hover:bg-indigo-700 w-[200px] flex items-center justify-center h-11' onClick={downloadTxtFile}>
-                                <img src={Descarga} alt="" className='size-8 mr-1'/>
-                                Descargar JSON 
-                            </button>
-                            
+                        {/* Aqui botones cuando es MAYOR a xl*/}
+                        <div className=' hidden xl:block'>
+                            <div className='flex justify-around '>
+                                <button className='bg-green-600 p-2 m-1 border  border-green-800 rounded-lg hover:scale-105 transition  hover:bg-green-700 w-[200px] flex items-center justify-center h-11' onClick={onCreateJSON}>
+                                    <img src={Martillo} alt="" className='size-9 mr-1'/> Crear JSON
+                                </button>
+                                <button className='bg-violet-600 p-2 m-1 border border-purple-800 rounded-lg hover:scale-105 transition hover:bg-violet-700 w-[200px] flex items-center justify-center h-11' onClick={copyToClipboard}>
+                                    <img src={Clip} alt="" className='size-9 mr-1'/>Copiar 
+                                </button>
+                                <button className='bg-indigo-600 p-2 m-1 border border-indigo-800 rounded-lg hover:scale-105 transition hover:bg-indigo-700 w-[200px] flex items-center justify-center h-11' onClick={downloadTxtFile}>
+                                    <img src={Descarga} alt="" className='size-8 mr-1'/>
+                                    Descargar JSON 
+                                </button>
+                                
+                            </div>
                         </div>
+                        
                         
                         {copySuccess && <div className='text-sky-400 ml-2'>Copiado al portapapeles !!!</div>}
                     </div>
