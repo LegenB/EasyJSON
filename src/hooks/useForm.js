@@ -8,12 +8,23 @@ export const useForm = ( initialForm = {} ) => {
 
     
     const onInputChange = ({target}) =>{
+        const { name, value, type, checked } = target;
+        //console.log(checked)
+        //console.log(value)
+        const newValue = type === 'checkbox' ? checked : value;
         
-        const {name,value} = target;
         setFormState({
             ...formState,
-            [name]: value
-        })
+            [name]: newValue
+        });
+    }
+
+    // Limpiar los textos del valor al cambiar el tipo de dato
+    const onResetDesc = (index) => {
+        setFormState({
+            ...formState,
+            [`desc.${index}`]: ""
+        });
     }
 
     // Limpiar los textos de la fila seleccionada
@@ -30,6 +41,7 @@ export const useForm = ( initialForm = {} ) => {
         ...formState,
         formState,
         onResetForm,
+        onResetDesc,
         onInputChange,
         setFormState 
          
