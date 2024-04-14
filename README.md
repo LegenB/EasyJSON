@@ -1,11 +1,11 @@
 ### New
-[x] Responsibility for mobile devices
-[x] Change for data type (string, interger, bool)
-[x] Minor bug fixes 
+[x] Responsibility for mobile devices.
+[x] Change for data type (string, interger, bool).
+[x] Minor bug fixes.
 
 ### To do
-[] Add to data types 'arrays'
-[] Add functions corresponding to arrays
+[ ] Add to data types 'arrays'.
+[ ] Add functions corresponding to arrays.
 
 
 ### Demo
