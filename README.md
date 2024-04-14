@@ -1,5 +1,5 @@
 ### New
-[x] Responsibility for mobile devices.\
+[x] Responsive Design for mobile devices.\
 [x] Change for data type (string, interger, bool).\
 [x] Minor bug fixes.
 
