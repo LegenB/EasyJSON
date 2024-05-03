@@ -49,6 +49,18 @@ export const Form = ({ Jarray, formState, onInputChange, onTypeChange, onResetFo
                         </div>
 
                         
+                        ) : formState[`type.${index}`] === 'integer' ? (
+                            <input
+                                type="number"
+                                placeholder='Valor'
+                               
+                                name={`desc.${index}`}
+                                value={formState[`desc.${index}`] || ''}
+                                onChange={onInputChange}
+                                autoComplete="off"
+                                className='text-zinc-50 bg-slate-600 m-1 p-1 rounded-md border-2 border-sky-500/95 w-24 sm:w-2/5'
+                                
+                            />
                         ) : (
                         <input
                             type="text"
